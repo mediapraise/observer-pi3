@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"log"
 	"os"
 	"strconv"
 	"time"
@@ -10,11 +9,10 @@ import (
 )
 
 type AuthJWT struct {
-	log *log.Logger
 }
 
-func New(log *log.Logger) *AuthJWT {
-	return &AuthJWT{log: log}
+func NewJWTAuth() *AuthJWT {
+	return &AuthJWT{}
 }
 
 func (i *AuthJWT) GenerateJWT(userID string) (string, error) {
