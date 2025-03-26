@@ -2,6 +2,7 @@ import os
 from utils import status
 from settings import parameters
 
+objeto_json = {}
 
 def main():
     '''Função principal do programa'''
@@ -9,7 +10,7 @@ def main():
     print("--------- Interceptor Project ---------")
     print("--------- Versão 1.0.0 ---------")
     print("--------- Autor: DRP01-PJI310-SALA-002GRUPO-014 ---------")
-    print("--------- Data: 20-05-2025 ---------")
+    print("--------- Data: 2025-05-20 ---------")
     print("--------- Inicializando Programa ---------")
 
     # Exemplo e teste de uso de enum
@@ -21,11 +22,12 @@ def main():
 
     # TODO: Extração de strings de imagens
 
-    # TODO: Criar um objeto JSON com a strings extraídas
+    # TODO: Criar um dict [objeto JSON]  com a strings extraídas
+
 
     # TODO: Coletar data e hora do sistema
 
-    # TODO: Enviar objeto JSON para API com: PLACA, DATA_HORA, STATUS
+    # TODO: Enviar o dict [objeto JSON] para API com: PLACA, DATA_HORA, STATUS
 
     
     print("--------- Finalizando Programa ---------")
