@@ -1,0 +1,95 @@
+# dev and test : docker compose -p observer-pi -f docker-compose.yml up -d --force-recreate
+# production : docker compose -p observer-pi -f docker-compose.yml --profile production up -d --force-recreate
+services:
+  postgres:
+    container_name: postgresdb-observer
+    image: postgres:17.0
+    restart: always
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    command: >
+      bash -c "
+        echo '✅   Starting PostgreSQL...';
+        docker-entrypoint.sh postgres & 
+
+        # Wait for PostgreSQL to be fully ready
+        echo '⏳   Waiting for PostgreSQL to start...';
+        until pg_isready -h localhost -p 5432 -U $POSTGRES_USER; do
+          echo '⏳   Still waiting for PostgreSQL...';
+          sleep 5;
+        done;
+
+        echo '✅   PostgreSQL is ready! Proceeding with initialization...';
+
+        # Ensure the main database exists
+        echo \"Checking if main database '$POSTGRES_DB' exists...\";
+        if psql -U \"$POSTGRES_USER\" -d postgres -tAc \"SELECT 1 FROM pg_database WHERE datname='$POSTGRES_DB'\" | grep -q 1; then
+          echo '✅   Main database \"$POSTGRES_DB\" already exists.';
+        else
+          echo '🚀   Creating main database: \"$POSTGRES_DB\"';
+          psql -U \"$POSTGRES_USER\" -d postgres -c \"CREATE DATABASE \\\"$POSTGRES_DB\\\";\";
+        fi;
+
+        # Check if test database exists and create schema 'public'
+        echo \"Checking if test database '$POSTGRES_DB_TEST' exists...\";
+        if psql -U \"$POSTGRES_USER\" -d postgres -tAc \"SELECT 1 FROM pg_database WHERE datname='$POSTGRES_DB_TEST'\" | grep -q 1; then
+          echo '✅   Test database \"$POSTGRES_DB_TEST\" already exists.';
+        else
+          echo '🚀   Creating test database: \"$POSTGRES_DB_TEST\"';
+          psql -U \"$POSTGRES_USER\" -d postgres -c \"CREATE DATABASE \\\"$POSTGRES_DB_TEST\\\";\";
+        fi;
+
+        echo '🔧   Ensuring schema public exists on test database...';
+        psql -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB_TEST\" -c 'CREATE SCHEMA IF NOT EXISTS public;';
+
+        echo '🎉   Database initialization complete!';
+
+        # Keep PostgreSQL running in the foreground to prevent container exit
+        wait
+      "
+    networks:
+      - observer-network
+  pgadmin:
+    container_name: pgadmin4-observer
+    image: dpage/pgadmin4:9
+    restart: always
+    volumes:
+      - ./pgadmin-data:/var/lib/pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      MAX_LOGIN_ATTEMPTS: ${MAX_LOGIN_ATTEMPTS}
+    ports:
+      - "${PGADMIN_PORT}:80"
+    networks:
+      - observer-network
+
+  observer-api:
+    container_name: observer-api
+    build: 
+      context: ./back-end
+      dockerfile: Dockerfile.yml
+    restart: always
+    environment:
+      - APP_ENV=${APP_ENV}
+      - APP_PORT=${APP_PORT}
+      - EXPIRE_AT=${EXPIRE_AT}
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    depends_on:
+      - postgres
+    networks:
+      - observer-network
+    # profiles:
+    #   - production  # Runs only in production
+
+networks:
+  observer-network:
+
+volumes:
+  postgres-data:
+  pgadmin-data:
