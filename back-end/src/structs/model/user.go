@@ -14,6 +14,6 @@ type User struct {
 	Verified           bool      `gorm:"not null"`
 	VerificationCode   string    `gorm:"type:varchar(50)"`
 	ExpireVerification time.Time `gorm:"not null"`
-	CompanyID          uint      `gorm:"not null"` // Foreign key
-	Company            Company   `gorm:"foreignKey:CompanyID"`
+	IsAdmin            bool      `gorm:"not null;default:false"`
+	CompanyID          uint
 }

@@ -19,8 +19,8 @@ type Database struct {
 var models = []any{
 	model.User{},
 	model.Company{},
-	model.Boards{},
-	model.Owner{},
+	model.Client{},
+	model.User{},
 }
 
 func (i *Database) Connect() {
