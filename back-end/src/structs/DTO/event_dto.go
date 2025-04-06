@@ -7,4 +7,5 @@ type EventDTO struct {
 	Date      time.Time `json:"date"`
 	Board     string    `json:"board"`
 	CompanyID string    `json:"company_id"`
+	Event    bool      `json:"event"`
 }

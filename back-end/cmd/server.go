@@ -30,6 +30,11 @@ func Create(log *log.Logger) *mux.Router {
 		Router:  muxRouter.PathPrefix("/webhook/").Subrouter(),
 		Handler: &handler.Webhook{Log: log},
 	}).Build()
+	(&router.Api{
+		Log:     log,
+		Router:  muxRouter.PathPrefix("/api/").Subrouter(),
+		Handler: &handler.Api{Log: log},
+	}).Build()
 	return muxRouter
 }
 

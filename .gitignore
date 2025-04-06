@@ -4,3 +4,4 @@ back-end/.env
 .env
 pgadmin-data
 postgres-data
+.vscode
