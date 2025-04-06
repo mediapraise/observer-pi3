@@ -10,17 +10,22 @@ import (
 	"gorm.io/gorm"
 )
 
-
 type Database struct {
 	Gorm *gorm.DB
-	log *log.Logger
+	log  *log.Logger
 }
 
-var models = []any{
-	model.User{},
-	model.Company{},
-	model.Client{},
-	model.User{},
+var models = []interface{}{
+	&model.Company{},
+	&model.User{},
+	&model.Client{},
+	&model.Registration{},
+}
+
+func Init(logger *log.Logger) *Database {
+	return &Database{
+		log: logger,
+	}
 }
 
 func (i *Database) Connect() {

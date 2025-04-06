@@ -15,5 +15,5 @@ type User struct {
 	VerificationCode   string    `gorm:"type:varchar(50)"`
 	ExpireVerification time.Time `gorm:"not null"`
 	IsAdmin            bool      `gorm:"not null;default:false"`
-	CompanyID          uint
+	CompanyID          uint 
 }

@@ -14,7 +14,7 @@ type Registration struct {
 	ExpirationDate time.Time `gorm:"type:date;not null"`
 	RegistrationStatus string `gorm:"type:varchar(100);not null"`
 	Owner   string `gorm:"type:varchar(100);not null"`
-	CompanyId string `gorm:"type:varchar(100);not null"`
+	CompanyID string `gorm:"type:varchar(100);not null"`
 }
 
 type Event struct {
