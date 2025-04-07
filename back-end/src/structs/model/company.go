@@ -11,5 +11,4 @@ type Company struct {
 	Users   []User   `gorm:"foreignKey:CompanyID"`
 	Clients []Client `gorm:"foreignKey:CompanyID"`
 	OwnerID uint     `gorm:"column:owner_id"`
-	Owner   User     `gorm:"foreignKey:OwnerID"`
 }
