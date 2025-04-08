@@ -1,7 +1,7 @@
 package service
 
 import (
-	"observer-go/src/db"
+	"observer-go/src/repositories"
 	"observer-go/src/structs/DTO"
 	"observer-go/src/structs/model"
 
@@ -16,12 +16,12 @@ type CompanyServiceInterface interface {
 }
 
 type CompanyService struct {
-	Database *db.Database
+	CompanyRepository repositories.CompanyRepoInterface
 }
 
-func NewCompanyService(database *db.Database) *CompanyService {
+func NewCompanyService(companyRepository repositories.CompanyRepoInterface) *CompanyService {
 	return &CompanyService{
-		Database: database,
+		CompanyRepository: companyRepository,
 	}
 }
 
@@ -33,12 +33,12 @@ func (s *CompanyService) CreateCompany(dto DTO.CompanyDTO) error {
 		Email:   dto.Email,
 		OwnerID: dto.OwnerID,
 	}
-	return s.Database.Gorm.Create(&company).Error
+	return s.CompanyRepository.Create(company)
 }
 
 func (s *CompanyService) GetCompanyByID(id uint) (DTO.CompanyDTO, error) {
-	var company model.Company
-	if err := s.Database.Gorm.First(&company, id).Error; err != nil {
+	company, err := s.CompanyRepository.GetById(id)
+	if err != nil {
 		return DTO.CompanyDTO{}, err
 	}
 	dto := DTO.CompanyDTO{
@@ -61,9 +61,9 @@ func (s *CompanyService) UpdateCompany(dto DTO.CompanyDTO) error {
 		Email:   dto.Email,
 		OwnerID: dto.OwnerID,
 	}
-	return s.Database.Gorm.Save(&company).Error
+	return s.CompanyRepository.Update(company)
 }
 
 func (s *CompanyService) DeleteCompany(id uint) error {
-	return s.Database.Gorm.Delete(&model.Company{}, id).Error
+	return s.CompanyRepository.Delete(id)
 }

@@ -1,7 +1,7 @@
 package service
 
 import (
-	"observer-go/src/db"
+	"observer-go/src/repositories"
 	"observer-go/src/structs/DTO"
 	"observer-go/src/structs/model"
 
@@ -16,12 +16,12 @@ type ClientServiceInterface interface {
 }
 
 type ClientService struct {
-	Database *db.Database
+	ClientRepository repositories.ClientRepoInterface
 }
 
-func NewClientService(database *db.Database) *ClientService {
+func NewClientService(clientRepository repositories.ClientRepoInterface)  *ClientService {
 	return &ClientService{
-		Database: database,
+		ClientRepository: clientRepository,
 	}
 }
 
@@ -33,12 +33,12 @@ func (s *ClientService) CreateClient(dto DTO.ClientDTO) error {
 		Document:  dto.Document,
 		CompanyID: dto.CompanyID,
 	}
-	return s.Database.Gorm.Create(&client).Error
+	return s.ClientRepository.Create(client)
 }
 
 func (s *ClientService) GetClientByID(id uint) (DTO.ClientDTO, error) {
-	var client model.Client
-	if err := s.Database.Gorm.First(&client, id).Error; err != nil {
+	client, err := s.ClientRepository.GetById(id)
+	if err != nil {
 		return DTO.ClientDTO{}, err
 	}
 	dto := DTO.ClientDTO{
@@ -61,9 +61,9 @@ func (s *ClientService) UpdateClient(dto DTO.ClientDTO) error {
 		Document:  dto.Document,
 		CompanyID: dto.CompanyID,
 	}
-	return s.Database.Gorm.Save(&client).Error
+	return s.ClientRepository.Update(client)
 }
 
 func (s *ClientService) DeleteClient(id uint) error {
-	return s.Database.Gorm.Delete(&model.Client{}, id).Error
+	return s.ClientRepository.Delete(id)
 }

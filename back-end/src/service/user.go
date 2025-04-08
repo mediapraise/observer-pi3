@@ -1,7 +1,7 @@
 package service
 
 import (
-	"observer-go/src/db"
+	"observer-go/src/repositories"
 	"observer-go/src/structs/DTO"
 	"observer-go/src/structs/model"
 
@@ -11,19 +11,19 @@ import (
 type UserServiceInterface interface {
 	CreateUser(dto DTO.UserDTO) error
 	GetUserByID(id uint) (DTO.UserDTO, error)
-	GetUserByEmail(email string) (DTO.UserDTO, error)
+	// GetUserByEmail(email string) (DTO.UserDTO, error)
 	GetAllUsers() ([]DTO.UserDTO, error)
 	UpdateUser(dto DTO.UserDTO) error
 	DeleteUser(id uint) error
 }
 
 type UserService struct {
-	Database *db.Database
+	UserRepository repositories.UserRepoInterface
 }
 
-func NewUserService(database *db.Database) *UserService {
+func NewUserService(userRepository repositories.UserRepoInterface) *UserService {
 	return &UserService{
-		Database: database,
+		UserRepository: userRepository,
 	}
 }
 
@@ -36,16 +36,17 @@ func (s *UserService) CreateUser(dto DTO.UserDTO) error {
 		IsAdmin:   dto.IsAdmin,
 		CompanyID: dto.CompanyID,
 	}
-	return s.Database.Gorm.Create(&user).Error
+	return s.UserRepository.Create(user)
 
 }
 
 func (s *UserService) GetUserByID(id uint) (DTO.UserDTO, error) {
 	// Retrieve user by ID from database
-	var user model.User
-	if err := s.Database.Gorm.First(&user, id).Error; err != nil {
+	user, err := s.UserRepository.GetById(id)
+	if err != nil {
 		return DTO.UserDTO{}, err
 	}
+
 	dto := DTO.UserDTO{
 		ID:        user.ID,
 		Name:      user.Name,
@@ -57,27 +58,27 @@ func (s *UserService) GetUserByID(id uint) (DTO.UserDTO, error) {
 	return dto, nil
 }
 
-func (s *UserService) GetUserByEmail(email string) (DTO.UserDTO, error) {
-	// Retrieve user by email from database
-	var user model.User
-	if err := s.Database.Gorm.Where("email = ?", email).First(&user).Error; err != nil {
-		return DTO.UserDTO{}, err
-	}
-	dto := DTO.UserDTO{
-		ID:        user.ID,
-		Name:      user.Name,
-		Email:     user.Email,
-		Verified:  user.Verified,
-		IsAdmin:   user.IsAdmin,
-		CompanyID: user.CompanyID,
-	}
-	return dto, nil
-}
+// func (s *UserService) GetUserByEmail(email string) (DTO.UserDTO, error) {
+// 	// Retrieve user by email from database
+// 	user, err := s.UserRepository.GetByEmail(email)
+// 	if err != nil {
+// 		return DTO.UserDTO{}, err
+// 	}
+// 	dto := DTO.UserDTO{
+// 		ID:        user.ID,
+// 		Name:      user.Name,
+// 		Email:     user.Email,
+// 		Verified:  user.Verified,
+// 		IsAdmin:   user.IsAdmin,
+// 		CompanyID: user.CompanyID,
+// 	}
+// 	return dto, nil
+// }
 
 func (s *UserService) GetAllUsers() ([]DTO.UserDTO, error) {
 	// Retrieve all users from database
-	var users []model.User
-	if err := s.Database.Gorm.Find(&users).Error; err != nil {
+	users, err := s.UserRepository.GetAll()
+	if err != nil {
 		return nil, err
 	}
 	var dtos []DTO.UserDTO
@@ -98,17 +99,17 @@ func (s *UserService) GetAllUsers() ([]DTO.UserDTO, error) {
 func (s *UserService) UpdateUser(dto DTO.UserDTO) error {
 	// Update user in database
 	user := model.User{
-		Model:        gorm.Model{ID: dto.ID},
+		Model:     gorm.Model{ID: dto.ID},
 		Name:      dto.Name,
 		Email:     dto.Email,
 		Verified:  dto.Verified,
 		IsAdmin:   dto.IsAdmin,
 		CompanyID: dto.CompanyID,
 	}
-	return s.Database.Gorm.Save(&user).Error
+	return s.UserRepository.Update(user)
 }
 
 func (s *UserService) DeleteUser(id uint) error {
 	// Delete user from database
-	return s.Database.Gorm.Delete(&model.User{}, id).Error
+	return s.UserRepository.Delete(id)
 }

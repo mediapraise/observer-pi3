@@ -1,7 +1,7 @@
 package service
 
 import (
-	"observer-go/src/db"
+	"observer-go/src/repositories"
 	"observer-go/src/structs/DTO"
 	"observer-go/src/structs/model"
 
@@ -16,12 +16,12 @@ type RegistrationServiceInterface interface {
 }
 
 type RegistrationService struct {
-	Database *db.Database
+	RegistrationRepository repositories.RegistrationRepoInterface
 }
 
-func NewRegistrationService(database *db.Database) *RegistrationService {
+func NewRegistrationService(registrationRepository repositories.RegistrationRepoInterface) *RegistrationService {
 	return &RegistrationService{
-		Database: database,
+		RegistrationRepository: registrationRepository,
 	}
 }
 
@@ -34,12 +34,12 @@ func (s *RegistrationService) CreateRegistration(dto DTO.RegistrationDTO) error 
 		Owner:              dto.Owner,
 		CompanyID:          dto.CompanyID,
 	}
-	return s.Database.Gorm.Create(&registration).Error
+	return s.RegistrationRepository.Create(registration)
 }
 
 func (s *RegistrationService) GetRegistrationByID(id uint) (DTO.RegistrationDTO, error) {
-	var registration model.Registration
-	if err := s.Database.Gorm.First(&registration, id).Error; err != nil {
+	registration, err := s.RegistrationRepository.GetById(id)
+	if err != nil {
 		return DTO.RegistrationDTO{}, err
 	}
 	dto := DTO.RegistrationDTO{
@@ -64,9 +64,9 @@ func (s *RegistrationService) UpdateRegistration(dto DTO.RegistrationDTO) error 
 		Owner:              dto.Owner,
 		CompanyID:          dto.CompanyID,
 	}
-	return s.Database.Gorm.Save(&registration).Error
+	return s.RegistrationRepository.Update(registration)
 }
 
 func (s *RegistrationService) DeleteRegistration(id uint) error {
-	return s.Database.Gorm.Delete(&model.Registration{}, id).Error
+	return s.RegistrationRepository.Delete(id)
 }
