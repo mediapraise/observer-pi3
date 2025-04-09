@@ -84,8 +84,8 @@ services:
       - postgres
     networks:
       - observer-network
-    # profiles:
-    #   - production  # Runs only in production
+    profiles:
+      - production  # Runs only in production
 
 networks:
   observer-network:

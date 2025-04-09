@@ -10,17 +10,24 @@ import (
 	"gorm.io/gorm"
 )
 
-
 type Database struct {
 	Gorm *gorm.DB
-	log *log.Logger
+	log  *log.Logger
 }
 
-var models = []any{
-	model.User{},
-	model.Company{},
-	model.Boards{},
-	model.Owner{},
+var models = []interface{}{
+	&model.Company{},
+}
+var dependableModels = []interface{}{
+	&model.User{},
+	&model.Client{},
+	&model.Registration{},
+}
+
+func Init(logger *log.Logger) *Database {
+	return &Database{
+		log: logger,
+	}
 }
 
 func (i *Database) Connect() {
@@ -53,7 +60,14 @@ func (i *Database) Connect() {
 	i.Gorm = db
 }
 func (db *Database) Migrate() {
+	db.Clear()
 	for _, model := range models {
+		log.Printf("Migrating: %T", model)
+		if err := db.Gorm.AutoMigrate(model); err != nil {
+			log.Fatalf("Failed to migrate %T: %v", model, err)
+		}
+	}
+	for _, model := range dependableModels {
 		log.Printf("Migrating: %T", model)
 		if err := db.Gorm.AutoMigrate(model); err != nil {
 			log.Fatalf("Failed to migrate %T: %v", model, err)
@@ -72,7 +86,7 @@ func (db *Database) Disconnect() {
 
 // Clear the database. Only in test environment
 func (db *Database) Clear() {
-	if os.Getenv("APP_ENV") != "test" {
+	if os.Getenv("APP_ENV") != "test" || os.Getenv("APP_ENV") != "dev" {
 		return
 	}
 	query := `
