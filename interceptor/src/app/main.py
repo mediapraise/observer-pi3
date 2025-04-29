@@ -1,36 +1,57 @@
 import os
-from utils import status
+from utils.status import Status
+from utils.gerador_data_hora import GeradorDataHora
+from service.resquest import CallApiEndpoint
 from settings import parameters
+import cv2
+import pytesseract
 
-objeto_json = {}
+objeto_registro = {}
 
 def main():
     '''Função principal do programa'''
 
-    print("--------- Interceptor Project ---------")
-    print("--------- Versão 1.0.0 ---------")
-    print("--------- Autor: DRP01-PJI310-SALA-002GRUPO-014 ---------")
-    print("--------- Data: 2025-05-20 ---------")
-    print("--------- Inicializando Programa ---------")
+    company = parameters.Parametros.company_id.value
+
+    print("\n\n\n--------- Interceptor Project                            ---------")
+    print("--------- Versão 1.0.0                                   ---------")
+    print("--------- Autor: DRP01-PJI310-SALA-002GRUPO-014          ---------")
+    print(f"--------- Data: {GeradorDataHora.gerador_data()}                               ---------")
+    print(f"--------- Company ID: {company}          ---------")
+    print("--------- Inicializando Programa                         ---------\n")
 
     # Exemplo e teste de uso de enum
-    print(f"Status Enum Value: {status.Status.entrada.value}")
-    # print(f"Status Enum Value: {status.Status.saida.value}")
-    print(f"URL: {parameters.Parametros.url_api_golang.value}")
+    #print(f"Status Enum Value: {Status.entrada.value}")
     
-    # TODO: Capturar imagens da câmera
+    # [ ] TODO: Capturar imagens da câmera
 
-    # TODO: Extração de strings de imagens
-
-    # TODO: Criar um dict [objeto JSON]  com a strings extraídas
-
-
-    # TODO: Coletar data e hora do sistema
-
-    # TODO: Enviar o dict [objeto JSON] para API com: PLACA, DATA_HORA, STATUS
-
+    # [ ] TODO: Extração de strings de imagens
+    #placa_veiculo = cv2.imread(os.path.join('src', 'resources', 'placa_veiculo.jpg'))
+    placa_veiculo = 'AAA-0A00'
     
-    print("--------- Finalizando Programa ---------")
+    # [x] TODO: Coletar data e hora do sistema
+    today = GeradorDataHora.gerador_data_hora()
+
+    # [x] TODO: Criar um dict [objeto JSON]  com a strings extraídas
+    objeto_registro['board'] = placa_veiculo                                # Valor da placa do veículo extraído do vídeo - STRING
+    objeto_registro['date']  = today                                        # Data e hora do extraído do sistema - STRING
+    objeto_registro['event'] = Status.entrada.value                         # Status de entrada e saída - BOOLEAN
+    objeto_registro['company_id'] = company                                 # ID da empresa - STRING
+    
+    print(objeto_registro)
+    print(type(objeto_registro))
+
+    # [x] TODO: Enviar o dict [objeto JSON] para API com: PLACA, DATA_HORA, STATUS
+    # url_post = parameters.Parametros.url_api_golang.value
+    # result = CallApiEndpoint.post_request(url_post, objeto_registro)
+
+    # if result.status_code == 200:
+    #     print("Requisição enviada com sucesso!")
+    # else:
+    #     print(f"Erro ao enviar requisição: {result.status_code}")
+
+
+    print("\n--------- Finalizando Programa                   ---------\n\n\n")
 
 if __name__ == "__main__":
     main()

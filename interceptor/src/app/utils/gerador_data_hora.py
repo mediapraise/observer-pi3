@@ -1,17 +1,22 @@
-import datetime
+from datetime import datetime, timezone
 
 class GeradorDataHora:
     '''Classe para gerar data e hora '''
 
     def gerador_data_hora():
-        '''Função para gerar data e hora atual. Formato -> 2025-03-25 23:27:15.470660 '''
+        '''Função para gerar data e hora atual. Formato ISO 8601 -> 2025-04-05T23:39:04.085Z '''
 
-        today = datetime.datetime.now()
+        # today = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")       # Gera data e hora atual ja formatado
+        # today = datetime.datetime.strptime(today, "%Y-%m-%d %H:%M:%S")      # Converte string em datetime
+        today = datetime.now(timezone.utc).isoformat(timespec='milliseconds').replace('+00:00', 'Z')
 
-        # Converte string em datetime
-        #today = today.strftime("%Y-%m-%d %H:%M:%S")
+        return today
 
-        # Converte string em datetime
-        # today = datetime.datetime.strptime(today, "%Y-%m-%d %H:%M:%S")
+
+    def gerador_data():
+        '''Função para gerar data atual. Formato 2025-04-05 '''
+
+        today = datetime.now().strftime("%Y-%m-%d")                           # Gera data atual ja formatado
+        # today = datetime.datetime.strptime(today, "%Y-%m-%d")               # Converte string em datetime
 
         return today

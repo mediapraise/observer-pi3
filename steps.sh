@@ -10,13 +10,13 @@
 
 
 # 1. Selecione a sua branch
-git checkout <my-branch>
+git checkout feature/eduardo
 
 # 2. Execute o comando git fetch para baixar as alterações mais recentes do repositório remoto.
 git fetch
 
 # 3. Execute o comando git pull para baixar as alterações mais recentes do repositório remoto e mesclá-las com a sua branch local.
-git pull
+#git pull
 
 # 4. Altere para a branch develop
 git checkout develop
@@ -28,7 +28,7 @@ git fetch
 git pull
 
 # 7. Altere para a branch pessoal
-git checkout -B <my-branch>
+git checkout feature/eduardo
 
 # 8. Execute o comando git merge para mesclar as alterações da branch develop com a sua branch pessoal.
 git merge develop
