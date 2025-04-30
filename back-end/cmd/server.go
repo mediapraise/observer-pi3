@@ -33,7 +33,7 @@ func Create(log *log.Logger) *mux.Router {
 	(&router.Api{
 		Log:     log,
 		Router:  muxRouter.PathPrefix("/api/").Subrouter(),
-		Handler: &handler.Api{Log: log},
+		Handler: &handler.Api{Log: log, Db: database},
 	}).Build()
 	return muxRouter
 }
@@ -84,13 +84,13 @@ func waitForShutdown(s *http.Server, l *log.Logger) {
 
 func startEnv(log *log.Logger) {
 	if os.Getenv("APP_ENV") == "" {
-	err := godotenv.Load(".env")
+		err := godotenv.Load(".env")
 		if err != nil {
-		err := godotenv.Load("../.env")
-		if err != nil {
-			log.Printf("%sError loading .env file: %v", ERROR, err)
+			err := godotenv.Load("../.env")
+			if err != nil {
+				log.Printf("%sError loading .env file: %v", ERROR, err)
+			}
 		}
-	}
 	} else {
 		os.Setenv("APP_ENV", "Production")
 	}

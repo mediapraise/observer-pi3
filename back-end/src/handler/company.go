@@ -3,10 +3,13 @@ package handler
 import (
 	"log"
 	"net/http"
+	"observer-go/src/service"
+
 )
 
 type Company struct {
 	log *log.Logger
+	CompanyService *service.CompanyService
 }
 
 func (i *Company) CreateCompany(res http.ResponseWriter, req *http.Request) {
