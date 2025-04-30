@@ -25,7 +25,7 @@ func (i *Api) Initialize() {
 	companyServ := service.NewCompanyService(companyRepo)
 	registrationServ := service.NewRegistrationService(registrationRepo)
 
-	i.Company = &Company{log: i.Log, CompanyService: companyServ}
+	i.Company = &Company{log: i.Log, CompanyService: companyServ, UserService: userServ}
 	i.User = &User{log: i.Log, UserService: userServ}
 	i.Registration = &Registration{log: i.Log, RegistrationService: registrationServ}
 }
