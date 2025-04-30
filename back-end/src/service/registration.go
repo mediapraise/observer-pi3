@@ -11,6 +11,7 @@ import (
 type RegistrationServiceInterface interface {
 	CreateRegistration(dto DTO.RegistrationDTO) error
 	GetRegistrationByID(id uint) (DTO.RegistrationDTO, error)
+	GetAllRegistrations() ([]DTO.RegistrationDTO, error)
 	UpdateRegistration(dto DTO.RegistrationDTO) error
 	DeleteRegistration(id uint) error
 }
@@ -52,6 +53,27 @@ func (s *RegistrationService) GetRegistrationByID(id uint) (DTO.RegistrationDTO,
 		CompanyID:          registration.CompanyID,
 	}
 	return dto, nil
+}
+
+func (s *RegistrationService) GetAllRegistrations() ([]DTO.RegistrationDTO, error) {
+	registrations, err := s.RegistrationRepository.GetAll()
+	if err != nil {
+		return nil, err
+	}
+	var dtos []DTO.RegistrationDTO
+	for _, registration := range registrations {
+		dto := DTO.RegistrationDTO{
+			ID:                 registration.ID,
+			Board:              registration.Board,
+			Vehicle:            registration.Vehicle,
+			ExpirationDate:     registration.ExpirationDate,
+			RegistrationStatus: registration.RegistrationStatus,
+			Owner:              registration.Owner,
+			CompanyID:          registration.CompanyID,
+		}
+		dtos = append(dtos, dto)
+	}
+	return dtos, nil
 }
 
 func (s *RegistrationService) UpdateRegistration(dto DTO.RegistrationDTO) error {
