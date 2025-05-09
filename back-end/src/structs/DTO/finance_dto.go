@@ -9,5 +9,5 @@ type HistoryPaymentDTO struct {
 	PaymentDate   time.Time `json:"payment_date"`
 	PaymentStatus string    `json:"payment_status"`
 	PaymentAmount int64     `json:"payment_amount"`
-	CompanyID     uint      `json:"company_id"`
+	CompanyID     string      `json:"company_id"`
 }

@@ -5,75 +5,75 @@ import (
 	"observer-go/src/structs/model"
 )
 
-type FinanceRepoInterface interface {
-	GetAll() ([]model.Event, error)
-	GetAllByCompanyID(companyID uint) ([]model.Event, error)
-	GetById(id uint) (model.Event, error)
-	Create(event model.Event) error
-	Update(event model.Event) error
+type HistoryPaymentRepoInterface interface {
+	GetAll() ([]model.HistoryPayment, error)
+	GetAllByCompanyID(companyID uint) ([]model.HistoryPayment, error)
+	GetById(id uint) (model.HistoryPayment, error)
+	Create(history model.HistoryPayment) error
+	Update(history model.HistoryPayment) error
 	Delete(id uint) error
 }
 
-type FinanceRepo struct {
+type HistoryPaymentRepo struct {
 	db *db.Database
 }
 
-func NewFinanceRepo(db *db.Database) FinanceRepoInterface {
-	return &FinanceRepo{
+func NewFinanceRepo(db *db.Database) HistoryPaymentRepoInterface {
+	return &HistoryPaymentRepo{
 		db: db,
 	}
 }
 
-func (repo *FinanceRepo) GetAll() ([]model.Event, error) {
-	var events []model.Event
-	err := repo.db.Gorm.Find(&events).Error
+func (repo *HistoryPaymentRepo) GetAll() ([]model.HistoryPayment, error) {
+	var historys []model.HistoryPayment
+	err := repo.db.Gorm.Find(&historys).Error
 	if err != nil {
 		return nil, err
 	}
-	return events, nil
+	return historys, nil
 }
 
-func (repo *FinanceRepo) GetAllByCompanyID(companyID uint) ([]model.Event, error) {
-	var events []model.Event
-	err := repo.db.Gorm.Where("company_id = ?", companyID).Find(&events).Error
+func (repo *HistoryPaymentRepo) GetAllByCompanyID(companyID uint) ([]model.HistoryPayment, error) {
+	var historys []model.HistoryPayment
+	err := repo.db.Gorm.Where("company_id = ?", companyID).Find(&historys).Error
 	if err != nil {
 		return nil, err
 	}
-	return events, nil
+	return historys, nil
 }
 
-func (repo *FinanceRepo) GetById(id uint) (model.Event, error) {
-	var event model.Event
-	err := repo.db.Gorm.First(&event, id).Error
+func (repo *HistoryPaymentRepo) GetById(id uint) (model.HistoryPayment, error) {
+	var history model.HistoryPayment
+	err := repo.db.Gorm.First(&history, id).Error
 	if err != nil {
-		return model.Event{}, err
+		return model.HistoryPayment{}, err
 	}
-	return event, nil
+	return history, nil
 }
 
-func (repo *FinanceRepo) Create(event model.Event) error {
-	err := repo.db.Gorm.Create(&event).Error
+func (repo *HistoryPaymentRepo) Create(history model.HistoryPayment) error {
+	err := repo.db.Gorm.Create(&history).Error
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (repo *FinanceRepo) Update(event model.Event) error {
-	err := repo.db.Gorm.Save(&event).Error
+func (repo *HistoryPaymentRepo) Update(history model.HistoryPayment) error {
+	err := repo.db.Gorm.Save(&history).Error
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (repo *FinanceRepo) Delete(id uint) error {
-	var event model.Event
-	err := repo.db.Gorm.First(&event, id).Error
+func (repo *HistoryPaymentRepo) Delete(id uint) error {
+	var history model.Event
+	err := repo.db.Gorm.First(&history, id).Error
 	if err != nil {
 		return err
 	}
-	err = repo.db.Gorm.Delete(&model.Event{}, id).Error
+	err = repo.db.Gorm.Delete(&model.HistoryPayment{}, id).Error
 	if err != nil {
 		return err
 	}
