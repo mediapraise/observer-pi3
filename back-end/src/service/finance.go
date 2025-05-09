@@ -102,3 +102,7 @@ func (s *HistoryPaymentService) Update(dto DTO.HistoryPaymentDTO) error {
 	}
 	return s.HistoryPaymentRepository.Update(historyPayment)
 }
+
+func (s *HistoryPaymentService) Delete(id uint) error {
+	return s.HistoryPaymentRepository.Delete(id)
+}

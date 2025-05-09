@@ -25,6 +25,7 @@ func (i *Api) Build() {
 	i.company()
 	i.events()
 	i.registration()
+	i.Finance()
 }
 
 func (i *Api) registration() {
@@ -56,4 +57,12 @@ func (i *Api) events() {
 	i.Router.HandleFunc("/events", i.Handler.Event.CreateEvent).Methods("POST")
 	i.Router.HandleFunc("/events/{id}", i.Handler.Event.UpdateEventById).Methods("PUT")
 	i.Router.HandleFunc("/events/{id}", i.Handler.Event.DeleteEventById).Methods("DELETE")
+}
+
+func (i *Api) Finance() {
+	i.Router.HandleFunc("/finance", i.Handler.Finance.GetAllHistoryPaymentByCompanyId).Methods("GET")
+	i.Router.HandleFunc("/finance/{id}", i.Handler.Finance.GetHistoryPaymentById).Methods("GET")
+	i.Router.HandleFunc("/finance", i.Handler.Finance.CreateHistoryPayment).Methods("POST")
+	i.Router.HandleFunc("/finance/{id}", i.Handler.Finance.UpdateHistoryPayment).Methods("PUT")
+	i.Router.HandleFunc("/finance/{id}", i.Handler.Finance.DeleteHistoryPaymentById).Methods("DELETE")
 }
