@@ -29,7 +29,7 @@ func (i *Api) Build() {
 func (i *Api) registration() {
 	i.Router.HandleFunc("/registration", i.Handler.Registration.CreateRegister).Methods("POST")
 	i.Router.HandleFunc("/registration/{id}", i.Handler.Registration.UpdateRegister).Methods("PUT")
-	i.Router.HandleFunc("/registration/{id}", i.Handler.Registration.DeleteRegister).Methods("DELETE")
+	i.Router.HandleFunc("/registration/{id}", i.Handler.Registration.DeleteRegisterById).Methods("DELETE")
 	i.Router.HandleFunc("/registration/{id}", i.Handler.Registration.GetRegisterById).Methods("GET")
 }
 
