@@ -11,9 +11,9 @@ type User struct {
 	Name               string    `gorm:"type:varchar(100);not null"`
 	Email              string    `gorm:"type:varchar(100);not null;unique"`
 	Password           string    `gorm:"not null"`
-	Verified           bool      `gorm:"not null"`
+	Verified           bool      `gorm:"not null;default:false"`
 	VerificationCode   string    `gorm:"type:varchar(50)"`
-	ExpireVerification time.Time `gorm:"not null"`
-	IsAdmin            bool      `gorm:"not null;default:false"`
+	ExpireVerification time.Time 
+	IsAdmin            bool      `gorm:"default:false"`
 	CompanyID          uint      `gorm:"foreignKey:CompanyID"`
 }

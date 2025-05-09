@@ -6,6 +6,8 @@ import (
 	"gorm.io/gorm"
 )
 
+//vehicle registration model
+// Registration represents a vehicle registration record in the database
 type Registration struct {
 	// Embeds gorm.Model to include fields like ID, CreatedAt, UpdatedAt, and DeletedAt
 	gorm.Model

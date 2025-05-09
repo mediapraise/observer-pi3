@@ -7,3 +7,4 @@ postgres-data
 .vscode
 back-end/logFile.log
 back-end/tmp
+tmp/build-errors.log
