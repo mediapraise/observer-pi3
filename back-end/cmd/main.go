@@ -8,12 +8,13 @@ import (
 
 	"gopkg.in/natefinch/lumberjack.v2"
 )
+var database *db.Database
 
 func main() {
 	log := loggerSetup()
 	startEnv(log)
 	//InitAuth(log)
-	database :=db.Init(log)
+	database = db.Init(log)
 	database.Connect()
 	database.Migrate()
 	httpServer := startServer(log)

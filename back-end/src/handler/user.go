@@ -2,16 +2,17 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"observer-go/src/service"
 	"observer-go/src/structs/DTO"
-
+	"strconv"
 )
 
 type User struct {
-	UserService service.UserService
-	log *log.Logger
+	UserService *service.UserService
+	log         *log.Logger
 }
 
 func (i *User) Login(res http.ResponseWriter, req *http.Request) {
@@ -40,13 +41,52 @@ func (i *User) CreateUser(res http.ResponseWriter, req *http.Request) {
 }
 
 func (i *User) GetUserById(res http.ResponseWriter, req *http.Request) {
-	i.log.Println("GetUser")
+	idInt, err := getIdValue(req)
+	if err != nil {
+		i.log.Println("Error getting ID:", err)
+		http.Error(res, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	user, err := i.UserService.GetUserByID(uint(idInt))
+	if err != nil {
+		i.log.Println("Error getting user:", err)
+		http.Error(res, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	res.Header().Set("Content-Type", "application/json")
+	err = json.NewEncoder(res).Encode(user)
+	if err != nil {
+		i.log.Println("Error encoding response:", err)
+		http.Error(res, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	res.WriteHeader(http.StatusOK)
 }
 
 func (i *User) UpdateUserById(res http.ResponseWriter, req *http.Request) {
-	i.log.Println("UpdateUser")
+	id, err := getIdValue(req)
+	if err != nil {
+		i.log.Println("Error getting ID:", err)
+		http.Error(res, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	i.log.Println(id)
 }
 
 func (i *User) DeleteUserById(res http.ResponseWriter, req *http.Request) {
 	i.log.Println("DeleteUser")
+}
+
+func getIdValue(req *http.Request) (uint, error) {
+	id := req.URL.Query().Get("id")
+	if id == "" {
+		return 0, fmt.Errorf("missing id")
+	}
+	idInt, err := strconv.Atoi(id)
+	if err != nil {
+		return 0, err
+	}
+	return uint(idInt), nil
 }

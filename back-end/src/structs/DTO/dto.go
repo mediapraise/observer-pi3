@@ -7,7 +7,11 @@ import (
 )
 
 var modelToDTOMap = map[reflect.Type]reflect.Type{
-	reflect.TypeOf((*model.User)(nil)).Elem(): reflect.TypeOf(UserDTO{}),
+	reflect.TypeOf((*model.User)(nil)).Elem():           reflect.TypeOf(UserDTO{}),
+	reflect.TypeOf((*model.HistoryPayment)(nil)).Elem(): reflect.TypeOf(HistoryPaymentDTO{}),
+	reflect.TypeOf((*model.Event)(nil)).Elem():         reflect.TypeOf(EventDTO{}),
+	reflect.TypeOf((*model.Company)(nil)).Elem():       reflect.TypeOf(CompanyDTO{}),
+	reflect.TypeOf((*model.Registration)(nil)).Elem(): reflect.TypeOf(RegistrationDTO{}),
 	// Add other model-to-DTO mappings here
 }
 
