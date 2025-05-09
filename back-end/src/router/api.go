@@ -17,7 +17,7 @@ type Api struct {
 
 func (i *Api) Build() {
 	i.Handler.Initialize()
-	skipPaths := []string{"/api/user/register", "api/user/login", "/api/company"}
+	skipPaths := []string{"/api/user/register", "/api/user/login", "/api/company"}
 	i.Router.Use(func(next http.Handler) http.Handler {
 		return middleware.SkipPathsMiddleware(skipPaths, next)
 	})
