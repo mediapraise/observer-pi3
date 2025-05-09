@@ -24,6 +24,7 @@ func (i *Api) Build() {
 	i.user()
 	i.company()
 	i.events()
+	i.registration()
 }
 
 func (i *Api) registration() {
