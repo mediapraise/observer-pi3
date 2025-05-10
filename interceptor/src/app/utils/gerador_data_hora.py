@@ -11,12 +11,3 @@ class GeradorDataHora:
         today = datetime.now(timezone.utc).isoformat(timespec='milliseconds').replace('+00:00', 'Z')
 
         return today
-
-
-    def gerador_data():
-        '''Função para gerar data atual. Formato 2025-04-05 '''
-
-        today = datetime.now().strftime("%Y-%m-%d")                           # Gera data atual ja formatado
-        # today = datetime.datetime.strptime(today, "%Y-%m-%d")               # Converte string em datetime
-
-        return today
