@@ -46,7 +46,7 @@ def main():
                 DatabaseConexao.salvar_no_banco(placa_detectada.strip(), status)
 
                 # [x] TODO: Criar um dict [objeto JSON]  com a strings extraídas
-                objeto_json = CreateObjeto(
+                objeto_criado = CreateObjeto(
                     placa_detectada,                 # Valor da placa do veículo extraído do vídeo - STRING
                     today,                           # Data e hora do extraído do sistema - STRING
                     status,                          # Status de entrada e saída - BOOLEAN
@@ -54,8 +54,8 @@ def main():
                     CallApiEndpoint.get_token()      # Token de autenticação - STRING
                 )
 
-                # objeto_json = objeto_json.to_dict()  # Converte o objeto em dicionário
-                objeto_json = objeto_json.to_json()  # Converte o objeto em JSON
+                # objeto_json = objeto_criado.to_dict()  # Converte o objeto em dicionário
+                objeto_json = objeto_criado.to_json()  # Converte o objeto em JSON
 
                 # [x] TODO: Enviar o dict [objeto JSON] para API com: PLACA, DATA_HORA, STATUS
                 result = CallApiEndpoint.post_request(objeto_json)
