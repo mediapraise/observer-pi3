@@ -11,7 +11,7 @@
     "predeploy": "npm install && npm run build",
     "deploy": "gh-pages -d dist"
   },
-  "homepage": "https://projetos-univesp.github.io/observer",
+  "homepage": "https://mediapraise.github.io/observer-pi3",
   "dependencies": {
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
