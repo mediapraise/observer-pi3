@@ -1,6 +1,8 @@
 name: Build and Test
 
-on: [push, pull_request]
+on:
+  - push
+  - pull_request
 
 jobs:
   build:
@@ -16,11 +18,12 @@ jobs:
           node-version: '22'
 
       - name: Install dependencies
+        cd Front-end
         run: npm install
 
       - name: Deploying
         run: |
           echo "Deploying the Front-end"
           cd Front-end
-          ls -la 
+          ls -la
           npm run deploy
