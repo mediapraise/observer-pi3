@@ -21,6 +21,6 @@ jobs:
       - name: Deploying
         run: |
           echo "Deploying the Front-end"
-          cd Front-end npm run build
+           run: cd ${{ github.workspace }}/Front-end
           npm run deploy
 
