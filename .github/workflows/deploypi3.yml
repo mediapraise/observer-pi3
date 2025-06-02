@@ -1,4 +1,4 @@
-name: Build and Test
+ame: Build and Test
 
 on:
   - push
@@ -20,11 +20,16 @@ jobs:
       - name: Install dependencies
         run: |
           pwd
+          cd observer-pi3/Front-end/teste/teste
           npm install
+
+      - name: Building
+        run: |
+          echo "Run Build"
+          npm run deploy
 
       - name: Deploying
         run: |
           echo "Deploying the Front-end"
-          ls -la
-          cd observer-pi3/Front-end
           npm run deploy
+          
