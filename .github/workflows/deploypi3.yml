@@ -24,11 +24,3 @@ jobs:
           cd Front-end
           ls -la 
           npm run deploy
-
-         
-         run: |
-         echo "Deploying the Front-end"
-         cd Front-end
-         ls -la 
-         npm run deploy
-
