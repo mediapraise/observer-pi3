@@ -20,12 +20,11 @@ jobs:
       - name: Install dependencies
         run: |
           pwd
-          cd ../../Front-end
+          cd observer-pi3/Front-end
           npm install
 
       - name: Deploying
         run: |
           echo "Deploying the Front-end"
-          cd observer-pi3/Front-end
           ls -la
           npm run deploy
