@@ -19,9 +19,9 @@ jobs:
         run: npm install
 
       - name: Deploying
-        run: |
-          echo "Deploying the Front-end"
-          run: cd ${{ github.workspace }}/Front-end
-          ls -la 
-          npm run deploy
+         run: |
+         echo "Deploying the Front-end"
+         cd Front-end
+         ls -la 
+         npm run deploy
 
