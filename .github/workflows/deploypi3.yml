@@ -19,7 +19,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd Front-end
           npm install
 
       - name: Deploying
