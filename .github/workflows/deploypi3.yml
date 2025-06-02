@@ -20,7 +20,6 @@ jobs:
       - name: Install dependencies
         run: |
           pwd
-          cd observer-pi3/Front-end/teste/teste
           npm install
 
       - name: Building
