@@ -8,3 +8,9 @@ postgres-data
 back-end/logFile.log
 back-end/tmp
 tmp/build-errors.log
+
+.github/workflows/temp.txt
+front-end/node_modules
+node_modules
+package-lock.json
+front-end/src/Notations.txt
