@@ -21,7 +21,7 @@ const Mensalistas = () => {
 
   return (
     <div>
-      <h1>Cadastro de Mensalistas</h1>
+      <h1>Mensalistas - Cadastro Geral</h1>
 
       <table border="1">
         <thead>

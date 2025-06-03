@@ -47,10 +47,10 @@ const BuscarPlaca = () => {
         <table border="1">
           <thead>
             <tr>
-              <th>Nome</th>
-              <th>Placa</th>
-              <th>Entrada</th>
-              <th>Saída</th>
+              <th>Nome:</th>
+              <th>Placa:</th>
+              <th>Entrada:</th>
+              <th>Saída:</th>
             </tr>
           </thead>
           <tbody>
