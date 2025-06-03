@@ -2,10 +2,10 @@ import { useState } from "react";
 import axios from "axios";
 
 const labelNames = {
-  name: "Nome do Cliente",
-  board: "Placa do Veículo",
-  payDate: "Data do Pagamento",
-  payAmount: "Valor Pago",
+  name: "Client",
+  board: "Vehicle Board",
+  payDate: "Pay Day",
+  payAmount: "Pay amount",
 };
 
 const Pagamento = ({ onSuccess }) => {
