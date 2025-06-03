@@ -10,7 +10,7 @@ body {
   background-color: #f9f9f9;
 }
 
-/* Estilizando a classe root para centralizar o conteúdo */
+/* classe root - centralizar o conteúdo */
 #root {
   display: flex;
   justify-content: center;
