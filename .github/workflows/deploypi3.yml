@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'front-end/**'  # Garante que apenas mudanças na pasta 'front-end' acionem o workflow
+      - 'front-end/**'  # Directory
 
 jobs:
   deploy:
@@ -33,5 +33,4 @@ jobs:
       - name: Fazer deploy
         run: |
           cd front-end
-          # Comando de deploy específico (ajuste conforme necessário)
           npm run deploy
