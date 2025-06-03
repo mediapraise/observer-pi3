@@ -1,36 +1,37 @@
-name: Build and Test
+name: Projeto Integrador III
 
 on:
-  - push
-  - pull_request
+  push:
+    branches:
+      - main
+    paths:
+      - 'front-end/**'  # Garante que apenas mudanças na pasta 'front-end' acionem o workflow
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout do repositório
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: Configurar Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '22'
 
-      - name: Install dependencies
+      - name: Instalar dependências
         run: |
-          pwd
+          cd front-end
           npm install
 
-      - name: Building
+      - name: Construir projeto
         run: |
-          echo "Run Build"
           cd front-end
-          npm run deploy
+          npm run build
 
-      - name: Deploying
+      - name: Fazer deploy
         run: |
-          echo "Deploying the Front-end"
           cd front-end
+          # Comando de deploy específico (ajuste conforme necessário)
           npm run deploy
-          
