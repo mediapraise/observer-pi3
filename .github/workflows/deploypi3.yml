@@ -36,10 +36,6 @@ jobs:
           cd front-end
           npm install
 
-      - name: Instalar `gh-pages`
-        run: |
-          npm install -g gh-pages
-
       - name: Construir projeto
         run: |
           cd front-end
@@ -48,4 +44,4 @@ jobs:
       - name: Fazer deploy via gh-pages com SSH
         run: |
           cd front-end
-          gh-pages -d dist -r git@github.com:mediapraise/observer-pi3.git
+          npm run deploy
