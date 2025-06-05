@@ -26,6 +26,16 @@ jobs:
         run: |
           git remote set-url origin git@github.com:mediapraise/observer-pi3.git
 
+      - name: Configurar chave SSH no runner
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+      - name: Testar conexão SSH
+        run: ssh -T git@github.com
+
       - name: Configurar Node.js
         uses: actions/setup-node@v3
         with:
