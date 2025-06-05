@@ -1,4 +1,4 @@
-name: Projeto Integrador III - OB-server
+name: PI III - OB-server
 
 on:
   push:
@@ -35,6 +35,10 @@ jobs:
         run: |
           cd front-end
           npm install
+
+      - name: Instalar `gh-pages`
+        run: |
+          npm install -g gh-pages
 
       - name: Construir projeto
         run: |
