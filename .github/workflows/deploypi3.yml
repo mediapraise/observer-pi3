@@ -19,6 +19,12 @@ jobs:
 
       - name: Checkout do repositório
         uses: actions/checkout@v3
+        with:
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Configurar autenticação Git
+        run: |
+          git remote set-url origin git@github.com:mediapraise/observer-pi3.git
 
       - name: Configurar Node.js
         uses: actions/setup-node@v3
@@ -35,7 +41,7 @@ jobs:
           cd front-end
           npm run build
 
-      - name: Fazer deploy
+      - name: Fazer deploy via gh-pages com SSH
         run: |
           cd front-end
-          npm run deploy
+          gh-pages -d dist -r git@github.com:mediapraise/observer-pi3.git
