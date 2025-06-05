@@ -22,7 +22,7 @@ jobs:
 
       - name: Configurar autenticação segura
         run: |
-          git remote set-url origin https://${{ secrets.GIT_PAT }}@github.com/usuario/repositorio.git
+          git remote set-url origin https://${{ secrets.GIT_PAT }}@github.com/mediapraise/observer-pi3.git
 
       - name: Configurar Node.js
         uses: actions/setup-node@v3
