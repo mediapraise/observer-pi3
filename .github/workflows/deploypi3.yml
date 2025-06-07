@@ -1,4 +1,4 @@
-name: PI III - OB-server
+name: PI III
 
 on:
   push:
@@ -45,6 +45,11 @@ jobs:
         run: |
           cd front-end
           npm install
+
+      - name: Executar testes unitários
+        run: |
+          cd front-end
+          npm test
 
       - name: Construir projeto
         run: |
